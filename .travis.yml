@@ -21,8 +21,8 @@ before_install:
 go_import_path: gorgonia.org/randomkit
 
 script:
-  - go test -run=. -coverprofile=prov.cover
-  - $HOME/gopath/bin/goveralls -coverprofile=profile.cov -service=travis-ci
+  - go test -run=. -coverprofile=profile.cover
+  - $HOME/gopath/bin/goveralls -coverprofile=profile.cover -service=travis-ci
 
 matrix:
   allow_failures:
