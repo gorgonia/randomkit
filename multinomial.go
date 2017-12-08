@@ -5,8 +5,7 @@ import (
 	"time"
 )
 
-// Multinomial returns a slice of ints drawn from the probabilities provided.
-func Multinomial(n int, probs []float64, retSize int) []int {
+func (g BinomialGenerator) Multinomial(n int, probs []float64, retSize int) []int {
 	d := len(probs)
 	if Kahan(probs) > (1.0 + 1e-12) {
 		panic("Probabilities add up to greater than 1!")
@@ -14,10 +13,6 @@ func Multinomial(n int, probs []float64, retSize int) []int {
 	// retSize must be wholely divisible by d
 	if retSize%d != 0 {
 		panic("The size of the return vector has to be wholely divisible by the size of the probabilities")
-	}
-
-	g := &BinomialGenerator{
-		Rand: rand.New(rand.NewSource(time.Now().UnixNano())),
 	}
 
 	retVal := make([]int, retSize)
@@ -38,4 +33,13 @@ func Multinomial(n int, probs []float64, retSize int) []int {
 		i += d
 	}
 	return retVal
+
+}
+
+// Multinomial returns a slice of ints drawn from the probabilities provided.
+func Multinomial(n int, probs []float64, retSize int) []int {
+	g := &BinomialGenerator{
+		Rand: rand.New(rand.NewSource(time.Now().UnixNano())),
+	}
+	return g.Multinomial(n, probs, retSize)
 }
